@@ -36,7 +36,7 @@ def api_predict():
         # Assuming you expect an array of input values as 'features'
         features = data['features']
         input_features = [int(x) for x in features]
-        final_features = [np.array(input_features)
+        final_features = [np.array(input_features)]
         prediction = model.predict(final_features)
 
         prediction = float(prediction[0])
