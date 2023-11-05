@@ -1,5 +1,5 @@
 import numpy as np
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 import pickle
 
 #creating an application by calling flask
@@ -12,7 +12,8 @@ model = pickle.load(open('model2.pkl', 'rb'))
 @app.route('/')
 def home():
     return render_template('index.html')
- 
+
+#this route is to be used with webapp
 @app.route('/predict', methods=['POST'])
 def predict():
     '''
@@ -28,6 +29,17 @@ def predict():
     output = round(prediction, 2)
     
     return render_template('index.html', prediction_text='Salary should be $ {}'.format(output))
+
+#this route is to be used with api
+@app.route('/api_predict/')
+def price_predict():
+    years = request.args.get('YearsExperience')
+        
+    test_df = pd.DataFrame({'YearsExperience':[years]})
+    
+    pred_salary = model.predict(test_df)
+    return jsonify({'Your salary should be $': str(np.round(pred_salary,2))})
+
 
 if __name__ == "__main__":
     app.run(debug=True)
