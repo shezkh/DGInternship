@@ -38,7 +38,7 @@ def price_predict():
     test_df = pd.DataFrame({'YearsExperience':[years]})
     
     pred_salary = model.predict(test_df)
-    return jsonify({'Your salary should be $': str(np.round(pred_salary,2))})
+    return jsonify({'Your salary should be $': str(np.round(pred_salary[0],2))})
 
 
 if __name__ == "__main__":
